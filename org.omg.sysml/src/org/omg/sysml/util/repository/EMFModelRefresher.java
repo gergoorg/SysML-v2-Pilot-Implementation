@@ -244,6 +244,9 @@ public class EMFModelRefresher {
 		if (referenceValue instanceof Map referenceObjectMap) {
 			Object refUUID = referenceObjectMap.get("@id");
 			Element referencedElement = model.getElement(UUID.fromString(refUUID.toString()));
+			if(referencedElement == null) {
+				return Optional.empty();		
+			}
 			EObject referencedLangElement = isContainment? transform(referencedElement) : tracker.get(UUID.fromString(refUUID.toString()));
 			return Optional.ofNullable(referencedLangElement);
 		}
