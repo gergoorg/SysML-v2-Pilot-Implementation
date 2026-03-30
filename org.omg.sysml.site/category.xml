@@ -6,10 +6,19 @@
    <feature id="org.omg.sysml.feature">
       <category name="KerML and SysML Editors"/>
    </feature>
+   <feature id="org.omg.sysml.feature.source">
+      <category name="KerML and SysML Editors"/>
+   </feature>
    <feature id="org.omg.sysml.editor.feature">
       <category name="KerML and SysML Editors"/>
    </feature>
+   <feature id="org.omg.sysml.editor.feature.source">
+      <category name="KerML and SysML Editors"/>
+   </feature>
    <feature id="org.omg.sysml.plantuml.feature">
+      <category name="KerML and SysML Editors"/>
+   </feature>
+   <feature id="org.omg.sysml.plantuml.feature.source">
       <category name="KerML and SysML Editors"/>
    </feature>
    <category-def name="KerML and SysML Editors" label="KerML and SysML Editors">
