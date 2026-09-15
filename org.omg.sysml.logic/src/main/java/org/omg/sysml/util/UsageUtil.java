@@ -35,6 +35,7 @@ import org.omg.sysml.lang.sysml.CaseDefinition;
 import org.omg.sysml.lang.sysml.CaseUsage;
 import org.omg.sysml.lang.sysml.FramedConcernMembership;
 import org.omg.sysml.lang.sysml.ConcernUsage;
+import org.omg.sysml.lang.sysml.ConnectionDefinition;
 import org.omg.sysml.lang.sysml.Connector;
 import org.omg.sysml.lang.sysml.ConstraintUsage;
 import org.omg.sysml.lang.sysml.Definition;
@@ -46,10 +47,12 @@ import org.omg.sysml.lang.sysml.Feature;
 import org.omg.sysml.lang.sysml.FeatureMembership;
 import org.omg.sysml.lang.sysml.FeatureValue;
 import org.omg.sysml.lang.sysml.FlowUsage;
+import org.omg.sysml.lang.sysml.InterfaceDefinition;
 import org.omg.sysml.lang.sysml.Membership;
 import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.ObjectiveMembership;
 import org.omg.sysml.lang.sysml.ParameterMembership;
+import org.omg.sysml.lang.sysml.PortUsage;
 import org.omg.sysml.lang.sysml.ReferenceSubsetting;
 import org.omg.sysml.lang.sysml.RenderingUsage;
 import org.omg.sysml.lang.sysml.RequirementConstraintKind;
@@ -65,6 +68,7 @@ import org.omg.sysml.lang.sysml.StateSubactionMembership;
 import org.omg.sysml.lang.sysml.StateUsage;
 import org.omg.sysml.lang.sysml.SubjectMembership;
 import org.omg.sysml.lang.sysml.Succession;
+import org.omg.sysml.lang.sysml.SysMLPackage;
 import org.omg.sysml.lang.sysml.TransitionFeatureKind;
 import org.omg.sysml.lang.sysml.TransitionFeatureMembership;
 import org.omg.sysml.lang.sysml.TransitionUsage;
@@ -205,6 +209,16 @@ public class UsageUtil {
 		return parameters.size() < i? null: FeatureUtil.getValueExpressionFor(parameters.get(i - 1));
 	}
 	
+	// Connections
+	
+	public static EList<Usage> getConnectionEndOf(ConnectionDefinition type) {
+		return TypeUtil.getEndFeatureOf(type, Usage.class, SysMLPackage.CONNECTION_DEFINITION__CONNECTION_END);
+	}
+	
+	public static EList<PortUsage> getInterfaceEndOf(InterfaceDefinition type) {
+		return TypeUtil.getEndFeatureOf(type, PortUsage.class, SysMLPackage.INTERFACE_DEFINITION__INTERFACE_END);
+	}
+	
 	// SuccessionAsUsages
 	
 	public static Feature getSourceOf(Feature succession) {
@@ -264,7 +278,7 @@ public class UsageUtil {
 					!FeatureUtil.isParameter((Feature)previousElement) &&
 					!(previousElement instanceof TransitionUsage) &&
 					(!(previousElement instanceof Connector) ||
-					 isMessageConnection((Feature)previousElement))) {
+					 isMessage((Feature)previousElement))) {
 					return (Feature)previousElement;
 				}
 			}
@@ -272,9 +286,9 @@ public class UsageUtil {
 		}
 	}
 
-	// Flow Connections
+	// Flows
 	
-	public static boolean isMessageConnection(Feature feature) {
+	public static boolean isMessage(Feature feature) {
 		return feature instanceof FlowUsage &&
 			   feature.getOwnedFeature().stream().noneMatch(Feature::isEnd);
 	}
@@ -299,16 +313,10 @@ public class UsageUtil {
 	
 	public static boolean isSubrequirement(RequirementUsage requirement) {
 		Type owningType = requirement.getOwningType();
-		/*
-		 * TODO: Update checkRequirementUsageSubrequirementSpecialization
-		 * 
-		 * !isAssumptionConstraint is not in the OCL
-		 * See SYSML21-300
-		 * 
-		 */
-		return !isAssumptionConstraint(requirement) && requirement.isComposite() &&
+		return requirement.isComposite() &&
 			   (owningType instanceof RequirementDefinition || 
-			    owningType instanceof RequirementUsage);
+			    owningType instanceof RequirementUsage) &&
+			   !(requirement.getOwningFeatureMembership() instanceof RequirementConstraintMembership);
 	}
 
 	public static boolean isObjective(RequirementUsage requirement) {
@@ -346,7 +354,7 @@ public class UsageUtil {
 	public static Stream<ConstraintUsage> getRequirementConstraints(Type owner, RequirementConstraintKind kind) {
 		return getRequirementConstraints(owner, RequirementConstraintMembership.class, kind);
 	}
-		
+	
 	public static Stream<RequirementUsage> getVerifiedRequirements(Type owner) {
 		return owner.getOwnedFeatureMembership().stream().
 				filter(RequirementVerificationMembership.class::isInstance).
