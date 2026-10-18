@@ -218,8 +218,8 @@ public class APIModelDelta {
 		
 		public Data toData() {
 			Data data = new Data();
-			data.putAll(baselineElement);
-			data.putAll(changes);
+			data.getAdditionalProperties().putAll(baselineElement.getAdditionalProperties());
+			data.getAdditionalProperties().putAll(changes);
 			return data;
 		}
 	}

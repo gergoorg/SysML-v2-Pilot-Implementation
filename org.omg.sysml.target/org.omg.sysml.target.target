@@ -22,6 +22,9 @@
 			<repository location="https://download.eclipse.org/xpect/updates/nightly/latest/"/>
 			<unit id="org.eclipse.xpect.sdk.feature.group" version="0.0.0"/>
 		</location>
+		<location path="C:/Apps/EclipseTarget/4.41/okhttp3-4.10.0" type="Directory"/>
+		<location path="C:/Apps/EclipseTarget/4.41/gson-fire-1.9.0" type="Directory"/>
+		<location path="C:/Apps/EclipseTarget/4.41/org.omg.sysml.rest.api.site-2026-10-fork" type="Directory"/>
 	</locations>
 	<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21"/>
 </target>
