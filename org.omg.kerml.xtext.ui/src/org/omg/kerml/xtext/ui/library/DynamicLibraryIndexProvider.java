@@ -30,6 +30,7 @@ import java.util.WeakHashMap;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.Adapters;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.ui.resource.ProjectByResourceProvider;
@@ -77,7 +78,7 @@ public class DynamicLibraryIndexProvider implements ILibraryIndexProvider {
 		IProject project = provider.getProjectContext(resource);
 
 		if (project == null) {
-			return null;
+			return Adapters.adapt(resource, LibraryIndex.class);
 		}
 
 		return cache.computeIfAbsent(project, proj -> {
