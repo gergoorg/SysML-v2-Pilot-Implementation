@@ -25,6 +25,23 @@ package org.omg.sysml.xtext.library
 
 import com.google.inject.Singleton
 import org.omg.kerml.xtext.library.KerMLLibraryProvider
+import org.eclipse.core.runtime.Adapters;
+import org.omg.sysml.lang.sysml.Element;
+import org.omg.sysml.logic.api.IModelLibraryProvider;
+
 
 @Singleton
-class SysMLLibraryProvider extends KerMLLibraryProvider {}
+class SysMLLibraryProvider extends KerMLLibraryProvider {
+
+	override Element getElement(Element context, String name) {
+		val libraryProvider = Adapters.adapt(context, IModelLibraryProvider);
+		if (libraryProvider !== null) {
+			val element = libraryProvider.getElement(context, name);
+			if (element !== null) {
+				return element;
+			}
+		}
+		return super.getElement(context, name);
+	}
+
+}
