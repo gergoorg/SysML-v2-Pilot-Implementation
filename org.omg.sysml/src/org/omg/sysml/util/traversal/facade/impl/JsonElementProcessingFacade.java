@@ -278,6 +278,9 @@ public class JsonElementProcessingFacade implements ElementProcessingFacade {
 	}
 	
 	boolean isStandardLibraryElement(Element element) {
+		if (element.eResource() == null){
+			return false;
+		}
 		return element.eResource().getContents().stream().filter(LibraryPackage.class::isInstance)
 				.map(LibraryPackage.class::cast).anyMatch(LibraryPackage::isStandard);
 	}
