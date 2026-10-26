@@ -1,12 +1,8 @@
-@SET CURRENT_DATE=%date:~0,4%%date:~6,2%%date:~10,2%
-REM @SET BUILD_TAG=nightly-%CURRENT_DATE%
-REM @SET METADATA_TAG=%CURRENT_DATE%
+rd /S /Q dist
 
-@SET BUILD_TAG=20261001
-@SET METADATA_TAG=20261001
+call docker build -t omg-fork-build . && ^
+docker create --name omg-fork-build-extract omg-fork-build && ^
+docker cp omg-fork-build-extract:/workspace/org.omg.sysml.site/target ./dist && ^
+docker cp omg-fork-build-extract:/workspace/sysml.library ./dist && ^
+docker rm omg-fork-build-extract
 
-@echo BUILD_TAG=%BUILD_TAG%
-@echo METADATA_TAG=%METADATA_TAG% 
-mvnw -B clean verify --file pom.xml -Dsysml.build-tag=%BUILD_TAG% -Dsysml.metadata-tag=%METADATA_TAG%
-
-mvnw -B package -DskipTests=true
