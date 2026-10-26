@@ -4,13 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-<<<<<<< HEAD
-Bundle-Version: 0.63.0.qualifier
-=======
 Bundle-Version: 0.64.0.qualifier
-Bundle-ClassPath: .,
- lib/sysml-v2-api-client-all.jar
->>>>>>> 850d39f1cf84b3ed02cbd6a85426660b03187b34
 Bundle-SymbolicName: org.omg.sysml;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
@@ -29,14 +23,9 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.m2m.qvt.oml,
  org.eclipse.uml2.uml.resources,
  org.eclipse.equinox.common;bundle-version="3.5.0",
-<<<<<<< HEAD
- org.omg.sysml.model.bundle;bundle-version="0.63.0",
- org.omg.sysml.logic.bundle;bundle-version="0.63.0",
- org.omg.sysml.rest.api;visibility:=reexport
-=======
  org.omg.sysml.model.bundle;bundle-version="0.64.0",
- org.omg.sysml.logic.bundle;bundle-version="0.64.0"
->>>>>>> 850d39f1cf84b3ed02cbd6a85426660b03187b34
+ org.omg.sysml.logic.bundle;bundle-version="0.64.0",
+ org.omg.sysml.rest.api;visibility:=reexport
 Export-Package: org.omg.sysml,
  org.omg.sysml.io,
  org.omg.sysml.qvt,
